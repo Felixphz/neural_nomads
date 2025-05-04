@@ -56,19 +56,31 @@ Este repositorio documenta la arquitectura y el flujo de datos implementados en 
   - `CREATE STAGE gharchive_stage URL='azure://...';`
   - `COPY INTO BronzeRaw ... FILE_FORMAT=(TYPE=JSON compressed=true);`
   - SQL para silver y gold en pipelines de tareas Snowflake.
+    
+### 4. dbt (Data Build Tool)
 
-### 4. Modelo ALS (Alternating Least Squares)
+- **Propósito**: Transformar los datos en Snowflake desde la capa *Bronze* hasta *Gold*, garantizando trazabilidad, modularidad y mantenibilidad.  
+- **Tecnologías**: dbt Core, dbt-snowflake adapter.  
+- **Flujo**:  
+  1. Define modelos SQL en carpetas por capa (`bronze/`, `silver/`, `gold/`).  
+- **Configuración**:  
+  - Define el perfil de conexión en `~/.dbt/profiles.yml` apuntando a tu cuenta y warehouse de Snowflake.   
+- **Integración con Snowflake**:  
+  - Las transformaciones actualizan las tablas Silver y Gold asegurando consistencia y versionado.  
+
+
+### 5. Modelo ALS (Alternating Least Squares)
 
 - **Propósito**: Generar recomendaciones de repositorios o usuarios basadas en interacciones.
 - **Entrenamiento**: Se conecta a la capa GOLD de Snowflake.
 - **Herramientas**: PySpark MLlib.
 - **Flujo**:
-  1. Consulta de tabla gold: `SELECT user_id, repo_id, event_count FROM Gold.EventsMetrics;`
+  1. Consulta de tabla gold: `SELECT * FROM IA_DATA WHERE created_at = date and date2 ;`
   2. Construcción de DataFrame en Spark.
   3. Entrenamiento ALS con parámetros (`rank`, `regParam`, `maxIter`).
-  4. Generación de predicciones y guardado en Snowflake o Blob.
+  4. Generación de predicciones y guardado en Snowflake.
 
-### 5. Power BI
+### 6. Power BI
 
 - **Propósito**: Dashboard interactivo para visualizar métricas de eventos y recomendaciones.
 - **Conexión**: DirectQuery o import de tablas desde Snowflake (capa GOLD).
