@@ -1,0 +1,14 @@
+version: 2
+
+sources:
+  - name: silver_yaml
+    database: HACKADATA
+    schema: BRONCE
+    tables:
+      - name: EVENTOS_RAW
+        columns:
+          - name: RAW_DATA
+            description: "Columna con JSON de información del actor"
+          - name: id_evento
+            description: "Identificador del evento"
+  

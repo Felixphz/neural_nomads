@@ -1,0 +1,13 @@
+prueba:
+  outputs:
+    dev:
+      account: my62916.mexico-central.azure
+      database: HACKADATA
+      password: Universidad12345.
+      role: ACCOUNTADMIN
+      schema: GOLD
+      threads: 4
+      type: snowflake
+      user: Datanomads
+      warehouse: COMPUTE_WH
+  target: dev
